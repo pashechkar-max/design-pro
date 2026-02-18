@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>design-pro</title>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+{% if user.is_staff %}
+<header>
+        <a href="{% url 'index' %}">
+            <span>
+                Disign-pro
+            </span>
+        </a>
+        <ul>
+            <li>
+                <a href="{% url 'admin_panel' %}">
+                    Admin
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'my_requests' %}">
+                    My applications
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+            </li>
+        </ul>
+    </header>
+{% elif user.is_authenticated %}
+<header>
+        <a href="{% url 'index' %}">
+            <span>
+                Disign-pro
+            </span>
+        </a>
+        <ul>
+            <li>
+                <a href="{% url 'my_requests' %}">
+                    My applications
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+            </li>
+        </ul>
+    </header>
+{% else %}
+<header>
+        <a href="{% url 'index' %}">
+            <span>
+                Disign-pro
+            </span>
+        </a>
+        <ul>
+            <li>
+                <a href="{% url 'login' %}">
+                    Log in
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'register' %}">
+                    Sign in
+                </a>
+            </li>
+        </ul>
+    </header>
+{% endif %}
+    <section>{% block content %} {% endblock %}</section>
+</body>
+</html>
