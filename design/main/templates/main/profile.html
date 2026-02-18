@@ -1,1 +1,20 @@
 {% extends 'main/base.html' %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<div>
+  <h1>Profile: {{ request.user.username }}</h1>
+  <p>
+      Name: {{ request.user.first_name }} <br>
+      Last name: {{ request.user.last_name }} <br>
+      Patronymic: {% if request.user.profile.patronymic %}{{ request.user.profile.patronymic }}{% endif %}</p>
+
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+      <input type="submit" value="Log out"></input>
+  </form>
+    </div>
+{% endblock %}
