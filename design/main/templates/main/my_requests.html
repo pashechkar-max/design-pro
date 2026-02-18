@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block title %}My applications{% endblock %}
+
+{% block content %}
+<div>
+  <h1>My applications</h1>
+    <a href="{% url 'create' %}">Create a request</a>
+
+  <div class="mb-3">
+    <a href="{% url 'my_requests' %}">All</a>
+    <a href="{% url 'my_requests' %}?status=new">New</a>
+    <a href="{% url 'my_requests' %}?status=in_progress">In progress</a>
+    <a href="{% url 'my_requests' %}?status=done">Done</a>
+  </div>
+
+  {% if requests %}
+    <div>
+      {% for r in requests %}
+        <div>
+          <div>
+            {% if r.photo %}
+              <img src="{{ r.photo.url }}" alt="Photo of the premises">
+            {% endif %}
+            <div>
+              <h5>{{ r.title }}</h5>
+              <p>{{ r.description|truncatechars:100 }}</p>
+              <p><strong>Category:</strong> {{ r.category.name }}</p>
+              <p>
+                <strong>Status:</strong>
+                {% if r.status == 'new' %}
+                  <span>New</span>
+                {% elif r.status == 'in_progress' %}
+                  <span>In progress</span>
+                {% else %}
+                  <span>Done</span>
+                {% endif %}
+              </p>
+              <p><small>Date: {{ r.created_at|date:"d.m.Y H:i" }}</small></p>
+              {% if r.status == 'new' %}
+                <a href="{% url 'delete_request' r.pk %}">Delete</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No applications found.</p>
+  {% endif %}
+</div>
+{% endblock %}

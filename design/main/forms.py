@@ -2,6 +2,7 @@ import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import DesignRequest, Category
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField()
@@ -50,3 +51,22 @@ class RegisterForm(UserCreationForm):
             user.profile.save()
 
         return user
+
+
+class DesignRequestForm(forms.ModelForm):
+    class Meta:
+        model = DesignRequest
+        fields = ['title', 'description', 'category', 'photo']
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo')
+
+        if not photo:
+            raise forms.ValidationError('Photo required')
+
+        return photo
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
