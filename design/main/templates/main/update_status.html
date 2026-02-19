@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div>
+  <h2>Change of status</h2>
+  <p>Application: <b>{{ request_obj.title }}</b></p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+      <div>
+        <b>Current status:</b> {{ request_obj.get_status_display }}
+      </div>
+      <div>
+      </div>
+      {% if request_obj.status == 'new' %}
+        <button type="submit" name="status" value="in_progress">
+          Back to work
+        </button>
+      {% elif request_obj.status == 'in_progress' %}
+        <button type="submit" name="status" value="done">
+          Done
+        </button>
+      {% else %}
+        <p>The application is complete and the status cannot be changed.</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {{ form.admin_comment.label_tag }}
+      {{ form.admin_comment }}
+    </div>
+
+    <div>
+      {{ form.result_image.label_tag }}
+      {{ form.result_image }}
+    </div>
+
+    {% if form.non_field_errors %}
+      <div>
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    {% if not is_done %}
+      <button>Save</button>
+    {% endif %}
+    <a href="{% url 'filter_status' %}">
+      Back
+    </a>
+  </form>
+</div>
+{% endblock %}
