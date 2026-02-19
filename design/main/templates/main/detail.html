@@ -1,1 +1,25 @@
-{% extends 'main/base.html' %}
+<h2>{{ request_obj.title }}</h2>
+
+<p><b>Description:</b> {{ request_obj.description }}</p>
+<p><b>Category:</b> {{ request_obj.category }}</p>
+<p><b>Status:</b> {{ request_obj.get_status_display }}</p>
+<p><b>Created:</b> {{ request_obj.created_at }}</p>
+
+{% if request_obj.image %}
+    <img src="{{ request_obj.image.url }}">
+{% endif %}
+
+<hr>
+
+{% if form %}
+    <h3>Editing</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'request_delete' request_obj.pk %}">Delete application</a>
+{% else %}
+    <p>Editing is unavailable - your request is already in progress</p>
+{% endif %}

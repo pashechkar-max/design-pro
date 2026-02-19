@@ -70,3 +70,54 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
+
+
+class AdminStatusForm(forms.ModelForm):
+    class Meta:
+        model = DesignRequest
+        fields = ['status', 'admin_comment', 'result_image']
+
+    def clean_status(self):
+        status = self.cleaned_data.get('status')
+
+        if not self.instance or not self.instance.pk:
+            return status
+
+        current_status = self.instance.status
+        if status == current_status:
+            return status
+
+        if current_status == DesignRequest.Status.NEW:
+            if status != DesignRequest.Status.IN_PROGRESS:
+                raise forms.ValidationError(
+                    'The "New" status can only be changed to "In progress".'
+                )
+        elif current_status == DesignRequest.Status.IN_PROGRESS:
+            if status != DesignRequest.Status.DONE:
+                raise forms.ValidationError(
+                    'The "In progress" status can only be changed to "Completed".'
+                )
+        elif current_status == DesignRequest.Status.DONE:
+            raise forms.ValidationError(
+                'The "Completed" status cannot be changed.'
+            )
+
+        return status
+
+    def clean(self):
+        cleaned_data = super().clean()
+        status = cleaned_data.get('status')
+        comment = cleaned_data.get('admin_comment')
+        image = cleaned_data.get('result_image')
+
+        if status == 'done':
+            if not comment:
+                raise forms.ValidationError(
+                    'When completing, you must leave a comment'
+                )
+            if not image:
+                raise forms.ValidationError(
+                    'When completing the task, you must upload a photo.'
+                )
+
+        return cleaned_data

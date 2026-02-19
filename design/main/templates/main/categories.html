@@ -1,1 +1,30 @@
 {% extends 'main/base.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div>
+  <h1>Application categories</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.name }}
+    <button>Add</button>
+  </form>
+
+  <ul>
+    {% for category in categories %}
+      <li>
+        {{ category.name }}
+        <a
+          href="{% url 'delete_category' category.id %}"
+        >
+          Delete
+        </a>
+      </li>
+    {% empty %}
+      <li>There are no categories</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
