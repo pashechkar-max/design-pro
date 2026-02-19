@@ -3,14 +3,14 @@
 {% block title %}Delete Request{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div>
 <h1>Delete Request</h1>
 <p>Are you sure you want to delete request "<strong>{{ design_request.title }}</strong>"?</p>
 
 <form method="post">
 {% csrf_token %}
-<a href="{% url 'my_requests' %}" class="btn btn-secondary">Cancel</a>
-<button type="submit" class="btn btn-danger">Delete</button>
+<a href="{% url 'my_requests' %}">Cancel</a>
+<button type="submit">Delete</button>
 </form>
 </div>
 {% endblock %}

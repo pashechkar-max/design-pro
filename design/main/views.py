@@ -117,7 +117,7 @@ def categories_list(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('categories_list')
+            return redirect('categories')
     else:
         form = CategoryForm()
 
@@ -133,7 +133,7 @@ def delete_category(request, category_id):
 
     if request.method == 'POST':
         category.delete()
-        return redirect('categories_list')
+        return redirect('categories')
 
     return render(request, 'main/delete_category.html', {
         'category': category
