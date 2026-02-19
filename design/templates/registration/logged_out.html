@@ -1,6 +1,10 @@
 {% extends "main/base.html" %}
 
+{% block title %}Logged out | Design Pro{% endblock %}
+
 {% block content %}
+<section class="card auth">
   <p>You have been logged out!</p>
-  <a href="{% url 'login'%}">Click to go to the login page.</a>
+  <a class="btn b4" href="{% url 'login' %}">Go to login page</a>
+</section>
 {% endblock %}

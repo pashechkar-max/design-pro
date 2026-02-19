@@ -2,73 +2,48 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>design-pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Design Pro{% endblock %}</title>
     {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+<header class="top">
+    <div class="top-in">
+        <a class="logo" href="{% url 'index' %}">
+            <span class="logo-a">Design</span>-pro
+        </a>
+        <nav>
+            <ul class="nav">
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'my_requests' %}">My applications</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'profile' %}">Profile</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'login' %}">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'register' %}">Sign up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
 
-{% if user.is_staff %}
-<header>
-        <a href="{% url 'index' %}">
-            <span>
-                Disign-pro
-            </span>
-        </a>
-        <ul>
-            <li>
-                <a href="{% url 'my_requests' %}">
-                    My applications
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'profile' %}">
-                    Profile
-                </a>
-            </li>
-        </ul>
-    </header>
-{% elif user.is_authenticated %}
-<header>
-        <a href="{% url 'index' %}">
-            <span>
-                Disign-pro
-            </span>
-        </a>
-        <ul>
-            <li>
-                <a href="{% url 'my_requests' %}">
-                    My applications
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{% url 'profile' %}">
-                    Profile
-                </a>
-            </li>
-        </ul>
-    </header>
-{% else %}
-<header>
-        <a href="{% url 'index' %}">
-            <span>
-                Disign-pro
-            </span>
-        </a>
-        <ul>
-            <li>
-                <a href="{% url 'login' %}">
-                    Log in
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'register' %}">
-                    Sign in
-                </a>
-            </li>
-        </ul>
-    </header>
-{% endif %}
-    <section>{% block content %} {% endblock %}</section>
+<main class="cont">
+    {% if messages %}
+        <div class="col">
+            {% for message in messages %}
+                <p class="msg {% if message.tags %}msg--{{ message.tags }}{% endif %}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
 </body>
 </html>

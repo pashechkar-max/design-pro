@@ -1,24 +1,33 @@
 {% extends 'main/base.html' %}
 
-{% block title %}
-Profile
-{% endblock %}
+{% block title %}Profile | Design Pro{% endblock %}
 
 {% block content %}
-
-<div>
+<section class="card">
   <h1>Profile: {{ request.user.username }}</h1>
-  <p>
-      Name: {{ request.user.first_name }} <br>
-      Last name: {{ request.user.last_name }} <br>
-      Patronymic: {% if request.user.profile.patronymic %}{{ request.user.profile.patronymic }}{% endif %}</p>
-{% if user.is_staff %}
-    <a href="{% url 'categories' %}">Create categories</a>
-    <a href="{% url 'filter_status' %}">Edit status</a>
-{% endif %}
-  <form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-      <input type="submit" value="Log out"></input>
-  </form>
+  <div class="pgrid">
+    <p><span class="gray">Name</span><br>{{ request.user.first_name|default:"-" }}</p>
+    <p><span class="gray">Last name</span><br>{{ request.user.last_name|default:"-" }}</p>
+    <p>
+      <span class="gray">Patronymic</span><br>
+      {% if request.user.profile.patronymic %}
+        {{ request.user.profile.patronymic }}
+      {% else %}
+        -
+      {% endif %}
+    </p>
+  </div>
+
+  {% if user.is_staff %}
+    <div class="row">
+      <a class="btn b2" href="{% url 'categories' %}">Create categories</a><br>
+      <a class="btn b2" href="{% url 'filter_status' %}">Edit status</a>
     </div>
+  {% endif %}<br>
+
+  <form class="row" method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <input class="btn b4" type="submit" value="Log out">
+  </form>
+</section>
 {% endblock %}

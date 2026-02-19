@@ -1,42 +1,46 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 
-{% block title %}
-Log in
-{% endblock %}
+{% block title %}Log in | Design Pro{% endblock %}
 
 {% block content %}
-<h1>Log in</h1>
+<section class="card form auth">
+  <h1>Log in</h1>
 
-{% if form.errors %}
-  <p>Your username and password do not match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-  {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To continue, please log in with an account that does.</p>
-  {% else %}
-    <p>You must be logged in to view this page.</p>
+  {% if form.errors %}
+    <p class="msg e">Your username and password do not match. Please try again.</p>
   {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p class="msg w">Your account doesn't have access to this page. To continue, please log in with an account that does.</p>
+    {% else %}
+      <p class="msg w">You must be logged in to view this page.</p>
+    {% endif %}
+  {% endif %}
 
-    <div>
-        <input type="text" name="username" placeholder="login"
-               value="{{ form.username.value|default:'' }}">
+  <form class="col" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    <label class="field">
+      <span>Login</span>
+      <input type="text" name="username" placeholder="Login"
+             value="{{ form.username.value|default:'' }}">
+    </label>
+
+    <label class="field">
+      <span>Password</span>
+      <input type="password" name="password" placeholder="Password"
+             value="{{ form.password.value|default:'' }}">
+    </label>
+
+    <input type="hidden" name="next" value="{{ next }}">
+    <div class="row">
+      <input class="btn b1" type="submit" value="Log in">
+      <a class="btn b4" href="{% url 'register' %}">Sign up</a>
     </div>
+  </form>
 
-    <div>
-        <input type="password" name="password" placeholder="password"
-               value="{{ form.password.value|default:'' }}">
-    </div>
-
-<input class="btn btn-primary" type="submit" value="Log in" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-
-
-<p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+  <p><a class="link" href="{% url 'password_reset' %}">Forgot your password?</a></p>
+</section>
 
 {% endblock %}

@@ -1,119 +1,41 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 
-{% block title %}
-Home
-{% endblock %}
+{% block title %}Home | Design Pro{% endblock %}
 
 {% block content %}
+<section class="card wide">
+    <header class="head">
+        <h1>Home page</h1>
+        <p class="count">
+            Applications in progress
+            <span class="num">{{ in_progress_count }}</span>
+        </p>
+    </header>
 
+    <h2 class="sub">Latest completed applications</h2>
 
-{% if user.is_staff %}
-<div>
-  <h1>Home page</h1>
-
-  <p>
-      Applications in progress:
-    <span>{{ in_progress_count }}</span>
-  </p>
-
-  <h2>Latest completed applications</h2>
-
-  {% if latest_done_requests %}
-    <div>
-      {% for r in latest_done_requests %}
-        <div>
-          <div>
-            {% if r.result_image %}
-              <img src="{{ r.result_image.url }}" alt="{{ r.title }}">
-            {% endif %}
-            <div>
-              <h5>{{ r.title }}</h5>
-              <p><b>Category:</b> {{ r.category.name }}</p>
-              {% if r.admin_comment %}
-                <p><b>Comment:</b> {{ r.admin_comment }}</p>
-              {% endif %}
-              <p><small>{{ r.created_at|date:"d.m.Y H:i" }}</small></p>
-            </div>
-          </div>
+    {% if latest_done_requests %}
+        <div class="grid">
+            {% for r in latest_done_requests %}
+                <article class="box">
+                    {% if r.result_image %}
+                        <img class="box-img" src="{{ r.result_image.url }}" alt="{{ r.title }}">
+                    {% else %}
+                        <div class="box-ph">No preview</div>
+                    {% endif %}
+                    <div class="box-b">
+                        <h3>{{ r.title }}</h3>
+                        <p><strong>Category:</strong> {{ r.category.name }}</p>
+                        {% if r.admin_comment %}
+                            <p><strong>Comment:</strong> {{ r.admin_comment }}</p>
+                        {% endif %}
+                        <p class="gray">{{ r.created_at|date:"d.m.Y H:i" }}</p>
+                    </div>
+                </article>
+            {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No completed orders</p>
-  {% endif %}
-</div>
-
-{% elif user.is_authenticated %}
-<div>
-  <h1>Home page</h1>
-
-  <p>
-    Applications in progress:
-    <span>{{ in_progress_count }}</span>
-  </p>
-
-  <h2>Latest completed applications</h2>
-
-  {% if latest_done_requests %}
-    <div>
-      {% for r in latest_done_requests %}
-        <div>
-          <div>
-            {% if r.result_image %}
-              <img src="{{ r.result_image.url }}" alt="{{ r.title }}">
-            {% endif %}
-            <div>
-              <h5>{{ r.title }}</h5>
-              <p><b>Category:</b> {{ r.category.name }}</p>
-              {% if r.admin_comment %}
-                <p><b>Comment:</b> {{ r.admin_comment }}</p>
-              {% endif %}
-              <p><small>{{ r.created_at|date:"d.m.Y H:i" }}</small></p>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No completed orders</p>
-  {% endif %}
-</div>
-
-{% else %}
-<div>
-  <h1>Home page</h1>
-
-  <p>
-    Applications in progress:
-    <span>{{ in_progress_count }}</span>
-  </p>
-
-  <h2>Latest completed applications</h2>
-
-  {% if latest_done_requests %}
-    <div>
-      {% for r in latest_done_requests %}
-        <div>
-          <div>
-            {% if r.result_image %}
-              <img src="{{ r.result_image.url }}" alt="{{ r.title }}">
-            {% endif %}
-            <div>
-              <h5>{{ r.title }}</h5>
-              <p><b>Category:</b> {{ r.category.name }}</p>
-              {% if r.admin_comment %}
-                <p><b>Comment:</b> {{ r.admin_comment }}</p>
-              {% endif %}
-              <p><small>{{ r.created_at|date:"d.m.Y H:i" }}</small></p>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No completed orders</p>
-  {% endif %}
-</div>
-{% endif %}
-
+    {% else %}
+        <p class="empty">No completed orders.</p>
+    {% endif %}
+</section>
 {% endblock %}

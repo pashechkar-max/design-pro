@@ -1,52 +1,54 @@
 {% extends 'main/base.html' %}
 
-{% block title %}My applications{% endblock %}
+{% block title %}My applications | Design Pro{% endblock %}
 
 {% block content %}
-<div>
-  <h1>My applications</h1>
-    <a href="{% url 'create' %}">Create a request</a>
+<section class="card wide">
+  <header class="head split">
+    <h1>My applications</h1>
+    <a class="btn b1" href="{% url 'create' %}">Create a request</a>
+  </header>
 
-  <div>
-    <a href="{% url 'my_requests' %}">All</a>
-    <a href="{% url 'my_requests' %}?status=new">New</a>
-    <a href="{% url 'my_requests' %}?status=in_progress">In progress</a>
-    <a href="{% url 'my_requests' %}?status=done">Done</a>
+  <div class="filt">
+    <a class="tag {% if not status_filter %}on{% endif %}" href="{% url 'my_requests' %}">All</a>
+    <a class="tag {% if status_filter == 'new' %}on{% endif %}" href="{% url 'my_requests' %}?status=new">New</a>
+    <a class="tag {% if status_filter == 'in_progress' %}on{% endif %}" href="{% url 'my_requests' %}?status=in_progress">In progress</a>
+    <a class="tag {% if status_filter == 'done' %}on{% endif %}" href="{% url 'my_requests' %}?status=done">Done</a>
   </div>
 
   {% if requests %}
-    <div>
+    <div class="grid">
       {% for r in requests %}
-        <div>
-          <div>
+        <article class="box">
             {% if r.photo %}
-              <img src="{{ r.photo.url }}" alt="Photo of the premises">
+              <img class="box-img" src="{{ r.photo.url }}" alt="Photo of the premises">
+            {% else %}
+              <div class="box-ph">No photo</div>
             {% endif %}
-            <div>
-              <h5>{{ r.title }}</h5>
+            <div class="box-b">
+              <h3>{{ r.title }}</h3>
               <p>{{ r.description|truncatechars:100 }}</p>
               <p><strong>Category:</strong> {{ r.category.name }}</p>
               <p>
                 <strong>Status:</strong>
                 {% if r.status == 'new' %}
-                  <span>New</span>
+                  <span class="st snew">New</span>
                 {% elif r.status == 'in_progress' %}
-                  <span>In progress</span>
+                  <span class="st sprog">In progress</span>
                 {% else %}
-                  <span>Done</span>
+                  <span class="st sdone">Done</span>
                 {% endif %}
               </p>
-              <p><small>Date: {{ r.created_at|date:"d.m.Y H:i" }}</small></p>
+              <p class="gray">Date: {{ r.created_at|date:"d.m.Y H:i" }}</p>
               {% if r.status == 'new' %}
-                <a href="{% url 'delete_request' r.pk %}">Delete</a>
+                <a class="btn b3 sm" href="{% url 'delete_request' r.pk %}">Delete</a>
               {% endif %}
             </div>
-          </div>
-        </div>
+        </article>
       {% endfor %}
     </div>
   {% else %}
-    <p>No applications found.</p>
+    <p class="empty">No applications found.</p>
   {% endif %}
-</div>
+</section>
 {% endblock %}

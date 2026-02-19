@@ -1,19 +1,20 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 
-{% block title %}
-?????
-{% endblock %}
+{% block title %}Delete request | Design Pro{% endblock %}
 
 {% block content %}
-<h2>Delete application</h2>
+<section class="card conf">
+  <h1>Delete application</h1>
 
-<p>
-  Are you sure you want to delete the application?
-  <b>{{ request_obj.title }}</b>?
-</p>
+  <p>
+    Are you sure you want to delete the application?
+    <b>{{ request_obj.title }}</b>?
+  </p>
 
-<form method="post">
-  {% csrf_token %}
-  <button>Yes, delete</button>
-</form>
+  <form class="row" method="post">
+    {% csrf_token %}
+    <button class="btn b3" type="submit">Yes, delete</button>
+    <a class="btn b4" href="{% url 'my_requests' %}">Cancel</a>
+  </form>
+</section>
 {% endblock %}

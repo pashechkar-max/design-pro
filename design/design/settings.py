@@ -115,7 +115,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'main/static/'
+STATIC_URL = 'static/'
 
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'

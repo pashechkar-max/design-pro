@@ -1,39 +1,42 @@
 {% extends 'main/base.html' %}
 
+{% block title %}Application management | Design Pro{% endblock %}
+
 {% block content %}
-<div>
+<section class="card wide">
   <h1>Application management</h1>
 
-  <div>
-    <a href="{% url 'filter_status' %}">All</a>
-    <a href="{% url 'filter_status' %}?status=new">New</a>
-    <a href="{% url 'filter_status' %}?status=in_progress">In progress</a>
-    <a href="{% url 'filter_status' %}?status=done">Done</a>
+  <div class="filt">
+    <a class="tag {% if not status_filter %}on{% endif %}" href="{% url 'filter_status' %}">All</a>
+    <a class="tag {% if status_filter == 'new' %}on{% endif %}" href="{% url 'filter_status' %}?status=new">New</a>
+    <a class="tag {% if status_filter == 'in_progress' %}on{% endif %}" href="{% url 'filter_status' %}?status=in_progress">In progress</a>
+    <a class="tag {% if status_filter == 'done' %}on{% endif %}" href="{% url 'filter_status' %}?status=done">Done</a>
   </div>
 
   {% if requests %}
-    <div>
+    <div class="grid">
       {% for req in requests %}
-        <div>
-          <div>
+        <article class="box">
             {% if req.photo %}
-              <img src="{{ req.photo.url }}" alt="{{ req.title }}">
+              <img class="box-img" src="{{ req.photo.url }}" alt="{{ req.title }}">
+            {% else %}
+              <div class="box-ph">No photo</div>
             {% endif %}
-            <div>
-              <h5>{{ req.title }}</h5>
+            <div class="box-b">
+              <h3>{{ req.title }}</h3>
               <p><b>ID:</b> {{ req.id }}</p>
-              <p><b>Date:</b> {{ req.created_at|date:"d.m.Y H:i" }}</p>
+              <p class="gray"><b>Date:</b> {{ req.created_at|date:"d.m.Y H:i" }}</p>
               <p><b>User:</b> {{ req.user.username }}</p>
               <p><b>Category:</b> {{ req.category.name }}</p>
               <p><b>Description:</b> {{ req.description }}</p>
               <p>
                 <b>Status:</b>
                 {% if req.status == 'new' %}
-                  <span>New</span>
+                  <span class="st snew">New</span>
                 {% elif req.status == 'in_progress' %}
-                  <span>In progress</span>
+                  <span class="st sprog">In progress</span>
                 {% else %}
-                  <span>Done</span>
+                  <span class="st sdone">Done</span>
                 {% endif %}
               </p>
               {% if req.admin_comment %}
@@ -41,24 +44,19 @@
               {% endif %}
               {% if req.result_image %}
                 <p><b>Result image:</b></p>
-                <img src="{{ req.result_image.url }}" alt="{{ req.title }}">
+                <img class="box-res" src="{{ req.result_image.url }}" alt="{{ req.title }}">
               {% endif %}
             </div>
             {% if req.status != 'done' %}
-              <div>
-                <a
-                  href="{% url 'update_status' req.id %}"
-                >
-                  Change
-                </a>
+              <div class="row">
+                <a class="btn b2" href="{% url 'update_status' req.id %}">Change</a>
               </div>
             {% endif %}
-          </div>
-        </div>
+        </article>
       {% endfor %}
     </div>
   {% else %}
-    <p>No applications</p>
+    <p class="empty">No applications.</p>
   {% endif %}
-</div>
+</section>
 {% endblock %}

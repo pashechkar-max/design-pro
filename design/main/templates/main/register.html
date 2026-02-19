@@ -1,100 +1,92 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 
-{% block title %}
-Sign in
-{% endblock %}
+{% block title %}Sign up | Design Pro{% endblock %}
 
 {% block content %}
-<h1>Sign in</h1>
+<section class="card form auth">
+<h1>Sign up</h1>
 
-<form method="post">
+<form class="col" method="post">
     {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
-
-    <div>
+    <label class="field">
+        <span>Name</span>
         <input type="text" name="first_name" placeholder="Name"
                value="{{ form.first_name.value|default:'' }}">
         {% if form.first_name.errors %}
-            <div>
-                {{ form.first_name.errors.0 }}
-            </div>
+            <span class="err">{{ form.first_name.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
 
-    <div>
+    <label class="field">
+        <span>Last name</span>
         <input type="text" name="last_name" placeholder="Last name"
                value="{{ form.last_name.value|default:'' }}">
         {% if form.last_name.errors %}
-            <div>
-                {{ form.last_name.errors.0 }}
-            </div>
+            <span class="err">{{ form.last_name.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
+    <label class="field">
+        <span>Patronymic</span>
         <input type="text" name="patronymic" placeholder="Patronymic"
                value="{{ form.patronymic.value|default:'' }}">
         {% if form.patronymic.errors %}
-            <div>
-                {{ form.patronymic.errors.0 }}
-            </div>
+            <span class="err">{{ form.patronymic.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
+    <label class="field">
+        <span>Login</span>
         <input type="text" name="username" placeholder="Login"
                value="{{ form.username.value|default:'' }}">
         {% if form.username.errors %}
-            <div>
-                {{ form.username.errors.0 }}
-            </div>
+            <span class="err">{{ form.username.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
+    <label class="field">
+        <span>Email</span>
         <input type="email" name="email" placeholder="Email"
                value="{{ form.email.value|default:'' }}">
         {% if form.email.errors %}
-            <div>
-                {{ form.email.errors.0 }}
-            </div>
+            <span class="err">{{ form.email.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
+    <label class="field">
+        <span>Password</span>
         <input type="password" name="password1" placeholder="Password">
         {% if form.password1.errors %}
-            <div>
-                {{ form.password1.errors.0 }}
-            </div>
+            <span class="err">{{ form.password1.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
+    <label class="field">
+        <span>Repeat password</span>
         <input type="password" name="password2" placeholder="Repeat password">
         {% if form.password2.errors %}
-            <div>
-                {{ form.password2.errors.0 }}
-            </div>
+            <span class="err">{{ form.password2.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <div>
-        <label>
-            <input type="checkbox" name="agree">
-            I agree to the processing of data
-        </label>
+    <label class="check">
+        <input type="checkbox" name="agree" {% if form.agree.value %}checked{% endif %}>
+        I agree to the processing of data
         {% if form.agree.errors %}
-            <div>
-                {{ form.agree.errors.0 }}
-            </div>
+            <span class="err">{{ form.agree.errors.0 }}</span>
         {% endif %}
-    </div><br>
+    </label>
 
-    <button type="submit">Sign in</button>
+    {% if form.non_field_errors %}
+        <div class="msg e">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="row">
+        <button class="btn b1" type="submit">Sign up</button>
+        <a class="btn b4" href="{% url 'login' %}">Log in</a>
+    </div>
 </form>
-</form>
+</section>
 {% endblock %}

@@ -1,25 +1,41 @@
-<h2>{{ request_obj.title }}</h2>
+{% extends 'main/base.html' %}
 
-<p><b>Description:</b> {{ request_obj.description }}</p>
-<p><b>Category:</b> {{ request_obj.category }}</p>
-<p><b>Status:</b> {{ request_obj.get_status_display }}</p>
-<p><b>Created:</b> {{ request_obj.created_at }}</p>
+{% block title %}Request details | Design Pro{% endblock %}
 
-{% if request_obj.image %}
-    <img src="{{ request_obj.image.url }}">
-{% endif %}
+{% block content %}
+<section class="card form">
+    <h1>{{ request_obj.title }}</h1>
 
-<hr>
+    <p><b>Description:</b> {{ request_obj.description }}</p>
+    <p><b>Category:</b> {{ request_obj.category }}</p>
+    <p>
+        <b>Status:</b>
+        {% if request_obj.status == 'new' %}
+            <span class="st snew">{{ request_obj.get_status_display }}</span>
+        {% elif request_obj.status == 'in_progress' %}
+            <span class="st sprog">{{ request_obj.get_status_display }}</span>
+        {% else %}
+            <span class="st sdone">{{ request_obj.get_status_display }}</span>
+        {% endif %}
+    </p>
+    <p class="gray"><b>Created:</b> {{ request_obj.created_at|date:"d.m.Y H:i" }}</p>
 
-{% if form %}
-    <h3>Editing</h3>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    {% if request_obj.photo %}
+        <img class="box-res" src="{{ request_obj.photo.url }}" alt="{{ request_obj.title }}">
+    {% endif %}
 
-    <a href="{% url 'request_delete' request_obj.pk %}">Delete application</a>
-{% else %}
-    <p>Editing is unavailable - your request is already in progress</p>
-{% endif %}
+    {% if form %}
+        <h2>Editing</h2>
+        <form class="col" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="row">
+                <button class="btn b1" type="submit">Save</button>
+                <a class="btn b3" href="{% url 'delete_request' request_obj.pk %}">Delete application</a>
+            </div>
+        </form>
+    {% else %}
+        <p class="empty">Editing is unavailable because your request is already in progress.</p>
+    {% endif %}
+</section>
+{% endblock %}

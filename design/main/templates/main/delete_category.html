@@ -1,10 +1,10 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Delete category{% endblock %}
+{% block title %}Delete category | Design Pro{% endblock %}
 
 {% block content %}
-<div>
-  <h2>Delete category</h2>
+<section class="card conf">
+  <h1>Delete category</h1>
 
   <p>
     Are you sure you want to delete the category?
@@ -15,12 +15,10 @@
     All applications with this category will be deleted.
   </p>
 
-  <form method="post">
+  <form class="row" method="post">
     {% csrf_token %}
-    <button>Yes, delete</button>
-    <a href="{% url 'categories' %}">
-      Cancel
-    </a>
+    <button class="btn b3" type="submit">Yes, delete</button>
+    <a class="btn b4" href="{% url 'categories' %}">Cancel</a>
   </form>
-</div>
+</section>
 {% endblock %}

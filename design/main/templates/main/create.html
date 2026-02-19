@@ -1,41 +1,55 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
+
+{% block title %}Create request | Design Pro{% endblock %}
 
 {% block content %}
-<div>
-  <h2>Creating an application</h2>
+<section class="card form">
+  <h1>Creating an application</h1>
 
-  <form method="post" enctype="multipart/form-data">
+  <form class="col" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <div>
-      <label>Name</label>
+    <label class="field">
+      <span>Name</span>
       {{ form.title }}
-    </div>
+      {% if form.title.errors %}
+        <span class="err">{{ form.title.errors.0 }}</span>
+      {% endif %}
+    </label>
 
-    <div>
-      <label>Description</label>
+    <label class="field">
+      <span>Description</span>
       {{ form.description }}
-    </div>
+      {% if form.description.errors %}
+        <span class="err">{{ form.description.errors.0 }}</span>
+      {% endif %}
+    </label>
 
-    <div>
-      <label>Category</label>
+    <label class="field">
+      <span>Category</span>
       {{ form.category }}
-    </div>
+      {% if form.category.errors %}
+        <span class="err">{{ form.category.errors.0 }}</span>
+      {% endif %}
+    </label>
 
-    <div>
-      <label>Photo of the room / plan</label>
+    <label class="field">
+      <span>Photo of the room / plan</span>
       {{ form.photo }}
-    </div>
+      {% if form.photo.errors %}
+        <span class="err">{{ form.photo.errors.0 }}</span>
+      {% endif %}
+    </label>
 
-    {% if form.errors %}
-      <div>
-        {{ form.errors }}
+    {% if form.non_field_errors %}
+      <div class="msg e">
+        {{ form.non_field_errors }}
       </div>
     {% endif %}
 
-    <button>
-        Create a request
-    </button>
+    <div class="row">
+      <button class="btn b1" type="submit">Create a request</button>
+    </div>
   </form>
-</div>
+</section>
 {% endblock %}
