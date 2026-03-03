@@ -8,9 +8,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Nunito", "Segoe UI", sans-serif;
-    background: linear-gradient(180deg, #fff3f9 0%, #fff8fc 40%, #fffdfd 100%);
+    background: #FFF3F9FF;
     color: #312131;
-    line-height: 1.5;
 }
 
 h1,
@@ -23,17 +22,15 @@ h1,
 h2,
 .logo {
     font-family: "Press Start 2P", "Courier New", monospace;
-    line-height: 1.45;
-    letter-spacing: 0.03em;
     color: #3e1d35;
 }
 
 h1 {
-    font-size: clamp(18px, 2vw, 23px);
+    font-size: 2vw;
 }
 
 h2 {
-    font-size: clamp(14px, 1.5vw, 16px);
+    font-size: 1.5vw;
 }
 
 h3 {
@@ -51,9 +48,8 @@ a:active {
 }
 
 .top {
-    background: linear-gradient(90deg, #fff3f9 0%, #ffeef7 100%);
+    background: #ffeef7;
     border-bottom: 1px solid #f1d7e7;
-    box-shadow: 0 2px 10px rgba(170, 72, 129, 0.08);
 }
 
 .top-in {
@@ -91,7 +87,7 @@ a:active {
     background: #ffffff;
     color: #312131;
     border-radius: 8px;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s ease;
 }
 
 .nav a:hover {
@@ -111,7 +107,6 @@ a:active {
     border-radius: 14px;
     padding: 16px;
     margin-bottom: 14px;
-    box-shadow: 0 5px 16px rgba(187, 72, 132, 0.08);
 }
 
 .wide {
@@ -276,7 +271,6 @@ textarea {
     border-radius: 8px;
     background: #ffffff;
     padding: 8px 10px;
-    font: inherit;
 }
 
 input[type="text"]:focus,
